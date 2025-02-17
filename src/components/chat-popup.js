@@ -4,6 +4,10 @@ import { getShadowRoot } from '../shared/ulti'
 import { pubSub } from '../shared/state-management';
 import messageData from '../shared/sample-data.js'
 import { createRef, ref } from 'lit/directives/ref.js';
+import './panel/panel.js';
+import './panel/panel-item.js';
+import './chat-intro.js'
+
 
 export class chatPopup extends LitElement {
     inputRef;
@@ -43,14 +47,14 @@ export class chatPopup extends LitElement {
         await new Promise(resolve => setTimeout(resolve, 500)).then(() => {
         })
         this._scrollToBottom();
-        this.messages = [...this.messages, { text: "typing...", role: 'system' }];
+        this.messages = [...this.messages, { text: "<i>typing...</i>", role: 'system' }];
     
         //add delay 1s
         await new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
             
         })
 
-        this.messages = [...this.messages, { text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor", role: 'system' }].filter(message => message.text !== 'typing...');
+        this.messages = [...this.messages, { text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor", role: 'system' }].filter(message => !message.text.includes('typing...'));
         this._scrollToBottom();
     }
 
@@ -58,22 +62,16 @@ export class chatPopup extends LitElement {
         return html`
             <div class="chat-popup">
                 <chat-header></chat-header>
-                <div class="panel">
-                    <div class="panel-item">
-                        <div class="chat-body">
+                <chat-panel>
+                    <chat-panel-item name="chatbody">
+                        <div class="chat-body" slot="content">
                             ${this.messages.map((message, i) => html`<chat-message key=${i} text=${message.text} isBot= ${message.role === 'system'}></chat-message>`)}
                         </div>
-                    </div>
-                    <div class="panel-item active">
-                        <div class="intro-page">
-                            <h2>Hãy cùng chat với trợ lý AI</h2>
-                            <p>Vui lòng hãy nhấn tiếp tục để gặp chúng tôi.</p>
-                            <button class="start-chat">
-                                Tiếp tục
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                    </chat-panel-item>
+                    <chat-panel-item name="intropage" active=true>
+                        <chat-intro slot="content" ></chat-intro>
+                    </chat-panel-item>
+                </chat-panel>
                
                 <div class="chat-footer">
                     <form action="#" class="chat-form" novalidate @submit=${this._onClickSubmit}>

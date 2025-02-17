@@ -5,7 +5,7 @@ import "./components/chat-message.js";
 import "./components/chat-connect.js";
 import "./components/chat-popup.js";
 import { pubSub } from "./shared/state-management.js"
-import { appendFontLinks } from "./shared/ulti.js"
+import { appendFontLinks, getShadowRoot } from "./shared/ulti.js"
 
 /**
  * An example element.
@@ -26,6 +26,12 @@ export class chatApp extends LitElement {
         appendFontLinks();
         pubSub.subscribe('showPopup', this._showPopup, this)
         pubSub.subscribe('closePopup', this._closePopup, this)
+        pubSub.subscribe('show-footer', this._showFooter, this)
+    }
+
+    _showFooter(data){
+      const footer=  getShadowRoot().querySelector('.chat-footer');
+      footer.classList.add('active')
     }
 
     _showPopup() {
@@ -191,7 +197,15 @@ export class chatApp extends LitElement {
     bottom: 0;
     width: 100%;
     padding: 15px 22px 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
    /* Include padding and border in width */
+}
+
+.chat-footer.active{
+    opacity: 1;
+    visibility: visible;
 }
 
 .chat-footer .chat-form {
@@ -321,6 +335,10 @@ export class chatApp extends LitElement {
 .intro-page p {
     font-size: 0.9rem;
     font-weight: 300;
+}
+
+chat-panel-item{
+    display: n
 }
 
         
