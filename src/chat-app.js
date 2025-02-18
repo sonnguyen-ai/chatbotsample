@@ -23,6 +23,12 @@ export class chatApp extends LitElement {
 
     constructor() {
         super()
+        //get the current url, check query param for popup true or not, if true open the loading popup false cancel load MFE
+        
+        //get current url
+
+
+
         appendFontLinks();
         pubSub.subscribe('showPopup', this._showPopup, this)
         pubSub.subscribe('closePopup', this._closePopup, this)
@@ -60,7 +66,7 @@ export class chatApp extends LitElement {
             font-family: "inter", sans-serif;
         }
         .container {
-    position: absolute;
+    position: fixed;
     bottom: 50px;
     right:10px;
 }
@@ -75,7 +81,8 @@ export class chatApp extends LitElement {
     flex-direction: column;
     justify-content: space-between;
    position: relative;
-    width: 420px;
+    width: 25rem;
+    max-width: 90vw;
     overflow: hidden;
     background: #fff;
     border-radius: 15px;
@@ -166,7 +173,6 @@ export class chatApp extends LitElement {
     max-width: 75%;
     word-wrap: break-word;
     white-space: pre-line;
-    font-size: 0.9rem;
 }
 
 .chat-body .bot-message .messate-text {
@@ -223,11 +229,11 @@ export class chatApp extends LitElement {
     height: 2.5rem;
     padding: 0 1rem;
     width: 100%;
+    font-size:1rem;
 }
 
 .chat-form button {
     cursor: pointer;
-    font-size: 1rem;
     color:#fff;
     display: none;
     height: 2.5rem;
@@ -253,6 +259,7 @@ export class chatApp extends LitElement {
 
 .floating-icon-container{
     opacity: 0;
+    visibility: hidden;
     display: flex;
     position: absolute;
     bottom: 15px;
@@ -272,6 +279,7 @@ export class chatApp extends LitElement {
 
 .floating-icon-container.show {
     opacity:1;
+    visibility: visible;
 }
 
 .panel{
@@ -333,7 +341,7 @@ export class chatApp extends LitElement {
 }
 
 .intro-page p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 300;
 }
 

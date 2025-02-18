@@ -1,6 +1,7 @@
 
 import { LitElement, css, html } from 'lit'
 import { pubSub } from '../shared/state-management.js'
+import { checkValidParams } from '../shared/ulti.js'
 
 export class chatConnect extends LitElement {
 
@@ -11,7 +12,12 @@ export class chatConnect extends LitElement {
     }
     constructor() {
         super()
-        this.active = true;
+
+        if(checkValidParams())
+            this.active = true
+        else
+            this.active = false
+       
         pubSub.subscribe('closePopup', this._openConnect, this)
     }
 

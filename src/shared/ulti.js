@@ -22,4 +22,11 @@ function getShadowRoot() {
     return shadowRoot;
 }
 
-export { appendFontLinks, getShadowRoot };
+function checkValidParams(){
+    const url = new URL(window.location.href);
+    //check query param , popup and get value
+    const popup = url.searchParams.get('popup');
+    return popup === "true"
+}
+
+export { appendFontLinks, getShadowRoot, checkValidParams };
