@@ -29,4 +29,32 @@ function checkValidParams(){
     return popup === "true"
 }
 
-export { appendFontLinks, getShadowRoot, checkValidParams };
+function formatAIExplanation(text) {
+    // Replace double asterisks with bold tags
+    text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+  
+    // Replace newlines followed by a number and a period with a heading
+    text = text.replace(/\n(\d+\.)/g, "<h2 id='section-$1'>$1</h2>");
+  
+    // Replace newlines followed by an asterisk with a list item
+    text = text.replace(/\n\*(.*?)\n/g, "<ul><li>$1</li></ul>");  //Handles single line list items
+    text = text.replace(/\n\*(.*?)(?=\n\*|\n\n)/gs, "<ul><li>$1</li></ul>"); //Handles multi-line list items
+  
+    // Replace newlines followed by two newlines with a paragraph
+    text = text.replace(/\n\n/g, "<p>");
+      text = text.replace(/\n/g, "<br>"); //convert single new lines to <br> to preserve other formatting
+    text = text.replace(/<\/p>/g, "</p>"); //close the paragraph tags.
+  
+    //Add id to headings
+    text = text.replace(/<h2 id='section-(.*?)'>(.*?)<\/h2>/g, "<h2 id='section-$1'><a href='#section-$1'>$2</a></h2>");
+  
+      // Add backslashes for escaped characters
+    text = text.replace(/\\/g, "");
+
+    //find the <br/> at the end of sentence and remove it
+    text = text.replace(/<br>$/, "");
+  
+    return text;
+  }
+
+export { appendFontLinks, getShadowRoot, checkValidParams, formatAIExplanation };
