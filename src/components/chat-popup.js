@@ -46,56 +46,24 @@ export class chatPopup extends LitElement {
         this.activeSend = false;
 
         pubSub.publish('addMessage', { text: this.inputRef.value.value, role: 'user' });
-
-        // this.messages = [...this.messages, { text: this.inputRef.value.value, role: 'user' }];
-        // this.inputRef.value.value = ''
-        // this.messages = [...this.messages, { text: "<i>typing...</i>", role: 'model' }];
-        // this._scrollToBottom();
-
+        this.inputRef.value.value = ''
         // const history = this.messages.filter(message => message.text !== "<i>typing...</i>");
         // const aiResponse = await this._postAI(history);
         // const contentBody = aiResponse.candidates[0].content.parts[0].text
+        // pubSub.publish('addMessage', { text: this.inputRef.value.value, role: 'user' });
+        // // this.messages = [...this.messages, { text: this.inputRef.value.value, role: 'user' }];
+        // // 
+        // // this.messages = [...this.messages, { text: "<i>typing...</i>", role: 'model' }];
+        // // this._scrollToBottom();
 
-        // this.messages = [...history, { text: contentBody, role: 'model' }];
-        // this._scrollToBottom();
+        // // const history = this.messages.filter(message => message.text !== "<i>typing...</i>");
+        // // const aiResponse = await this._postAI(history);
+        // // const contentBody = aiResponse.candidates[0].content.parts[0].text
+
+        // // this.messages = [...history, { text: contentBody, role: 'model' }];
+        // // this._scrollToBottom();
 
         this.activeSend = true;
-    }
-
-    async _postAI(history) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${import.meta.env.VITE_API_GEMINI_KEY}`;
-
-        const payload = history.map(message => {
-            return {
-                role: message.role,
-                parts: [
-                    {
-                        text: message.text
-                    }
-                ]
-            }
-        })
-
-        const httpRequest = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                system_instruction: {
-                    parts:
-                        { text: introduction}
-                }, contents: payload
-            })
-        }
-
-        var response = await fetch(url, httpRequest);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return response.json();
     }
 
     render() {
