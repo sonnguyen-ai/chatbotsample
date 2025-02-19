@@ -11,7 +11,7 @@ export default defineConfig({
                 main: './index.html', // Default entry point
             },
             output: {
-                entryFileNames: '[name]-son.js',
+                entryFileNames: '[name]-sey-[hash].js',
             }
         }
     }
