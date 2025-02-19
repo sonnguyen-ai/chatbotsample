@@ -24,7 +24,7 @@ export class chatApp extends LitElement {
     constructor() {
         super()
         //get the current url, check query param for popup true or not, if true open the loading popup false cancel load MFE
-        
+
         //get current url
 
 
@@ -35,9 +35,9 @@ export class chatApp extends LitElement {
         pubSub.subscribe('show-footer', this._showFooter, this)
     }
 
-    _showFooter(data){
-      const footer=  getShadowRoot().querySelector('.chat-footer');
-      footer.classList.add('active')
+    _showFooter(data) {
+        const footer = getShadowRoot().querySelector('.chat-footer');
+        footer.classList.add('active')
     }
 
     _showPopup() {
@@ -173,6 +173,7 @@ export class chatApp extends LitElement {
     max-width: 75%;
     word-wrap: break-word;
     white-space: pre-line;
+    
 }
 
 .chat-body .bot-message .messate-text {
@@ -344,12 +345,6 @@ export class chatApp extends LitElement {
     font-size: 1rem;
     font-weight: 300;
 }
-
-chat-panel-item{
-    display: n
-}
-
-        
         `]
     }
 

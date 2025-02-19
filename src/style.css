@@ -1,14 +1,15 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
     --headercolor: #f9f9f9;
     --maincolor: #4934fa;
     --lightgray: #E5E5EA;
     --messenger-sender: #5834fa;
-    
+
 }
+
 * {
-    margin:0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "inter", sans-serif;
@@ -16,7 +17,7 @@
 
 body {
     font-family: sans-serif;
-    background: linear-gradient(90deg, #f4ebeb 0%, #e8c7c7 100%); 
+    background: linear-gradient(90deg, #f4ebeb 0%, #e8c7c7 100%);
     width: 100%;
     height: 100vh;
 }
@@ -24,33 +25,34 @@ body {
 .container {
     position: absolute;
     bottom: 50px;
-    right:10px;
+    right: 10px;
 }
 
-.chat-popup{
+.chat-popup {
     transform: scale(0.2);
     transform-origin: bottom right;
-    
+
     display: flex;
     opacity: 0;
     pointer-events: none;
     flex-direction: column;
     justify-content: space-between;
-   position: relative;
-    width: 420px;
+    position: relative;
+    width: 25rem;
+    max-width: 90vw;
     overflow: hidden;
     background: #fff;
     border-radius: 15px;
     transition: all 0.1s ease;
-    box-shadow: 0 0 128px 0 rgba(0,0,0,0.1), 0 32px 64px -48px rgba(0,0,0,0.5);
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
 }
 
-.container.show .chat-popup{
+.container.show .chat-popup {
     opacity: 1;
     pointer-events: auto;
-    transform:scale(1);
+    transform: scale(1);
     transition: all 0.1s ease;
-} 
+}
 
 .chat-popup .chat-header {
     display: flex;
@@ -60,24 +62,24 @@ body {
     background: var(--headercolor);
 }
 
-.chat-header .header-info{
+.chat-header .header-info {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.header-info svg{
+.header-info svg {
     height: 35px;
     width: 35px;
     flex-shrink: 0;
-    fill: var(--maincolor); 
-    background-color: #fff;
+    fill: #fff;
+    background-color: var(--maincolor);
     border-radius: 50%;
     padding: 6px;
 }
 
-.header-info .logo-text{
-    color: #fff;
+.header-info .logo-text {
+    color: var(--messenger-sender);
     font-size: 1.3rem;
     font-weight: 600;
 }
@@ -99,94 +101,35 @@ body {
 }
 
 
-.panel{
-    display: flex;
-    flex-direction: column;
-    height: 460px;
-    position: relative;
-}
-
-.panel .panel-item {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s;
-}
-
-.panel-item.active{
-    display:block;
-    opacity: 1;
-    visibility: visible;
-}
-
-.intro-page {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-    height: 100%;
-    justify-content: center;
-    justify-self: center;
-    margin-bottom: 80px;
-}
-
-.intro-page .start-chat {
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: 600;
-    padding: 10px 15px;
-    margin-top: 20px;
-    border: none;
-    outline: none;
-    flex-shrink: 0;
-    border-radius: 5px;
-    background: var(--maincolor);
-}
-
-.intro-page h2{
-    font-weight: 600;
-}
-
-.intro-page p {
-    font-size: 0.9rem;
-    font-weight: 300;
-}
-
 
 .chat-body {
     padding: 15px 23px;
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap: 20px;
     overflow-y: auto;
-    margin-bottom:76px;
+    height: 385px;
 }
 
 
 
 
-.chat-body .bot-message svg{
+.chat-body .bot-message svg {
     height: 30px;
     width: 30px;
     flex-shrink: 0;
-    fill: #fff; 
+    fill: #fff;
     background-color: var(--maincolor);
     border-radius: 50%;
     padding: 6px;
     align-self: flex-end;
 }
 
-.chat-body .message .messate-text{
+.chat-body .message .messate-text {
     padding: 12px 16px;
     max-width: 75%;
     word-wrap: break-word;
     white-space: pre-line;
-    font-size: 0.9rem;
 }
 
 .chat-body .bot-message .messate-text {
@@ -212,12 +155,20 @@ body {
     align-items: flex-end;
 }
 
-.chat-footer{
+.chat-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     padding: 15px 22px 20px;
-   /* Include padding and border in width */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+    /* Include padding and border in width */
+}
+
+.chat-footer.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .chat-footer .chat-form {
@@ -226,21 +177,21 @@ body {
     background-color: #fff;
     outline: 1px solid #cccce5;
     border-radius: 32px;
-    box-shadow: 0 0 8px 0 rgba(0,0,0,0.06)
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06)
 }
 
 .chat-form .chat-input {
-    border:none;
+    border: none;
     outline: none;
     height: 2.5rem;
     padding: 0 1rem;
     width: 100%;
+    font-size: 1rem;
 }
 
 .chat-form button {
     cursor: pointer;
-    font-size: 1rem;
-    color:#fff;
+    color: #fff;
     display: none;
     height: 2.5rem;
     width: 2.5rem;
@@ -256,15 +207,16 @@ body {
 }
 
 .chat-form:focus-within {
-   outline: 1px solid var(--maincolor);
+    outline: 1px solid var(--maincolor);
 }
 
-.chat-form .chat-input:valid~button{
+.chat-form .chat-input:valid~button {
     display: block;
 }
 
-.floating-icon-container{
+.floating-icon-container {
     opacity: 0;
+    visibility: hidden;
     display: flex;
     position: absolute;
     bottom: 15px;
@@ -276,12 +228,76 @@ body {
 }
 
 .floating-icon-container span {
-    
+
     border-radius: 5px;
     color: #fff;
-    margin:10px;
+    margin: 10px;
 }
 
 .floating-icon-container.show {
-    opacity:1;
+    opacity: 1;
+    visibility: visible;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    height: 460px;
+    position: relative;
+}
+
+.panel .panel-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+}
+
+.panel-item.active {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.intro-page {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+    justify-content: center;
+    justify-self: center;
+    margin-bottom: 80px;
+}
+
+.intro-page .start-chat {
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 15px 35px;
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: var(--maincolor);
+}
+
+.start-chat:hover {
+    background: var(--messenger-sender);
+}
+
+.intro-page h2 {
+    font-weight: 600;
+}
+
+.intro-page p {
+    font-size: 1rem;
+    font-weight: 300;
 }
