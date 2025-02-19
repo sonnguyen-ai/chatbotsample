@@ -24,8 +24,18 @@ export class chatBody extends LitElement {
     }
 
     _addMessage(newMessage) {
-        this.messages = [...this.messages, newMessage];
+        if (newMessage.role === 'model') {
+            this.messages = [...this._getHistory(), newMessage];
+        }
+        else if (newMessage.role === 'user') {
+            this.messages = [...this.messages, newMessage, { text: "<i>typing...</i>", role: 'model' }];
+            pubSub.publish('askLLM', this._getHistory())
+        }
         this._scrollToBottom();
+    }
+
+    _getHistory() {
+        return this.messages.filter(message => message.text !== "<i>typing...</i>");
     }
 
     async _scrollToBottom() {
@@ -35,7 +45,7 @@ export class chatBody extends LitElement {
 
     render() {
         return html`
-        <div class="chat-body" slot="content" ${ref(this.elBodyRef)}>
+        <div class="chat-body"  ${ref(this.elBodyRef)}>
             ${this.messages.map((message, i) => {
             if (message.hideInChat === true) return;
             return html`<chat-message key=${i} text=${message.text} isBot=${message.role === 'model'}></chat-message>`

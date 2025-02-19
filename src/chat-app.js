@@ -6,6 +6,8 @@ import "./components/chat-connect.js";
 import "./components/chat-popup.js";
 import { pubSub } from "./shared/state-management.js"
 import { appendFontLinks, getShadowRoot } from "./shared/ulti.js"
+import { introduction } from "./shared/sample-data.js"
+import { formatAIExplanation } from "./shared/ulti.js"
 
 /**
  * An example element.
@@ -33,6 +35,46 @@ export class chatApp extends LitElement {
         pubSub.subscribe('showPopup', this._showPopup, this)
         pubSub.subscribe('closePopup', this._closePopup, this)
         pubSub.subscribe('show-footer', this._showFooter, this)
+        pubSub.subscribe('askLLM', this._askLLM, this)
+    }
+
+    async _askLLM(history) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${import.meta.env.VITE_API_GEMINI_KEY}`;
+
+        const payload = history.map(message => {
+            return {
+                role: message.role,
+                parts: [
+                    {
+                        text: message.text
+                    }
+                ]
+            }
+        })
+
+        const httpRequest = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                system_instruction: {
+                    parts:
+                        { text: introduction }
+                }, contents: payload
+            })
+        }
+
+        var response = await fetch(url, httpRequest);
+
+        if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`);
+            return;
+        }
+
+        const contentBody = (await response.json()).candidates[0].content.parts[0].text;
+
+        pubSub.publish('addMessage', { text: formatAIExplanation(contentBody), role: 'model' });
     }
 
     _showFooter(data) {
@@ -146,16 +188,13 @@ export class chatApp extends LitElement {
 
 
 .chat-body {
-    padding: 15px 23px;
+    padding: 15px 11px;
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap:0.5rem;
     overflow-y: auto;
     height: 385px;
 }
-
-
-
 
 .chat-body .bot-message svg{
     height: 30px;
@@ -170,10 +209,9 @@ export class chatApp extends LitElement {
 
 .chat-body .message .messate-text{
     padding: 12px 16px;
-    max-width: 75%;
     word-wrap: break-word;
     white-space: pre-line;
-    
+    line-height: 1.5rem;
 }
 
 .chat-body .bot-message .messate-text {
