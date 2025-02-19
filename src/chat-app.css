@@ -110,6 +110,7 @@
     word-wrap: break-word;
     white-space: pre-line;
     line-height: 1.5rem;
+    max-width: 85%;
 }
 
 .chat-body .bot-message .messate-text {

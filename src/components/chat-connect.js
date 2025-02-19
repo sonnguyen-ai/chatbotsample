@@ -13,11 +13,11 @@ export class chatConnect extends LitElement {
     constructor() {
         super()
 
-        if(checkValidParams())
+        if (checkValidParams())
             this.active = true
         else
             this.active = false
-       
+
         pubSub.subscribe('closePopup', this._openConnect, this)
     }
 
@@ -47,7 +47,7 @@ export class chatConnect extends LitElement {
     _onClick() {
         pubSub.publish('showPopup')
         this.active = false
-        this.setAttribute('inert','')
+        this.setAttribute('inert', '')
     }
 }
 
